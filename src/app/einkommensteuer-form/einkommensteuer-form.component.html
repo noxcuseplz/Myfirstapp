@@ -1,7 +1,68 @@
 <div [hidden]="submitted">
-    <h1>Einkommensteuer-Formular</h1>
-    <form (ngSubmit)="onSubmit()" #EinkommensteuerForm="ngForm">
-         
+  <h1>Einkommensteuer-Formular</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="einkommen">Einkommen</label>
+      <input type="number" min="0" class="form-control" formControlName="einkommen">
+        <div [hidden]="form.get('einkommen').valid || !form.get('einkommen').touched" class="alert alert-danger">
+          Einkommen wird benötigt
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gesellschaftsform">Gesellschaftsform</label>
+      <select class="form-control" formControlName="gesellschaftsform">
+        <option *ngFor="let gesellschaft of gesellschaftsformoptionen" [value]="gesellschaft">{{gesellschaft}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="sitz">Geschäftssitz in Österreich?</label>
+      <select class="form-control" formControlName="sitz">
+        <option *ngFor="let sitz of sitzoptionen" [value]="sitz">{{sitz}}</option>
+      </select>
+    </div>
+
+    <div *ngFor="let alias of children.controls;">
+      <div class="form-group">
+        <label for="gesellschaftsform">Gesellschaftsform</label>
+        <select class="form-control">
+          <option *ngFor="let gesellschaft of gesellschaftsformoptionen" [value]="gesellschaft">{{gesellschaft}}</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!form.valid">Submit</button>
+  </form>
+  <button class="btn btn-primary" (click)="addChild()">+</button>
+</div>
+
+<div>
+  <form>
+    <div [hidden]="!submitted">
+      <h2>Folgendes wurde versandt:</h2>
+      <div class="row">
+        <div class="col-xs-3">Einkommmen: </div>
+        <div class="col-xs-9">{{ model.einkommen }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Gesellschaftsform: </div>
+        <div class="col-xs-9">{{ model.gesellschaftsform }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Geschäftssitz: </div>
+        <div class="col-xs-9">{{ model.sitz }}</div>
+      </div>
+      <br>
+      Steuerlast: {{ergebnis}} <br><br>
+      <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+    </div>
+  </form>
+</div>
+
+
+<!-- <form (ngSubmit)="onSubmit()" #EinkommensteuerForm="ngForm">
+
       <div class="form-group">
         <label for="einkommen">Einkommen</label>
         <input type="number" class="form-control" id="einkommen" required
@@ -39,29 +100,4 @@
 
       <form (ngSubmit)="onSubmit()" #EinkommensteuerForm="ngForm"></form>
 
-</form>
-      
-</div>
-
-<div>
-<form>
-  <div [hidden]="!submitted">
-    <h2>Folgendes wurde versandt:</h2>
-    <div class="row">
-      <div class="col-xs-3">Einkommmen: </div>
-      <div class="col-xs-9">{{ model.einkommen }}</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">Gesellschaftsform: </div>
-      <div class="col-xs-9">{{ model.gesellschaftsform }}</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">Geschäftssitz: </div>
-      <div class="col-xs-9">{{ model.sitz }}</div>
-    </div>
-    <br>
-    Steuerlast: {{ergebnis}} <br><br>
-    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
-  </div>
-</form>
-</div>
+</form> -->
