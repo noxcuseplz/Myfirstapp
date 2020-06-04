@@ -1,0 +1,14 @@
+
+div{
+    text-align: center
+}
+
+form{
+    width: 25%;
+    padding: 40px;
+    display: inline-block  
+}
+
+h1{
+    font-style: italic;
+}

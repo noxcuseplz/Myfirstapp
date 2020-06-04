@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "MyFirstApp",
+			"path": "../../.."
+		},
+		{
+			"name": "forms",
+			"path": "../../../../Downloads/forms"
+		}
+	],
+	"settings": {}
+}
