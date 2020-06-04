@@ -16,7 +16,7 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="form.get('gesellschaftsform').value">
       <label for="sitz">Geschäftssitz in Österreich?</label>
       <select class="form-control" formControlName="sitz">
         <option *ngFor="let sitz of sitzoptionen" [value]="sitz">{{sitz}}</option>
