@@ -11,8 +11,9 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@ang
 })
 export class EinkommensteuerFormComponent implements OnInit{
 
-  gesellschaftsformoptionen = ['Einzelunternehmer', 'OG', 'KG', 'GmbH', 'AG'];
-  sitzoptionen = ['ja', 'nein'];
+  gesellschaftsformoptionen: string[] = ['Einzelunternehmer', 'OG', 'KG', 'GmbH', 'AG'];
+  sitzoptionen: string[] = ['ja', 'nein'];
+  incomeOptions: string[] = ['Dividende', 'Option2'];
   model: Einkommensteuer;
   ergebnis: number;
   submitted = false;
@@ -41,6 +42,10 @@ export class EinkommensteuerFormComponent implements OnInit{
 
   addChild() {
     this.children.push(this.fb.control('', Validators.required));
+  }
+
+  removeChild(child: FormControl) {
+    this.children.removeAt(this.children.length - 1);
   }
 
   calculation() {
