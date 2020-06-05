@@ -44,8 +44,8 @@ export class EinkommensteuerFormComponent implements OnInit{
     this.children.push(this.fb.control('', Validators.required));
   }
 
-  removeChild(child: FormControl) {
-    this.children.removeAt(this.children.length - 1);
+  removeChild(index: number) {
+    this.children.removeAt(index);
   }
 
   calculation() {
