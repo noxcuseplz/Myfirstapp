@@ -16,8 +16,15 @@
       </select>
     </div>
 
+    <div class="form-group" *ngIf="form.get('gesellschaftsform').value == 'KG'">
+      <label for="kgopt">Gesellschafter</label>
+      <select class="form-control" formControlName="kgopt">
+        <option *ngFor="let kgopt of kgoptionen" [value]="kgopt">{{kgopt}}</option>
+      </select>
+    </div>
+    
     <div class="form-group" *ngIf="form.get('gesellschaftsform').value">
-      <label for="sitz">Geschäftssitz in Österreich?</label>
+      <label for="sitz">Geschäftssitz</label>
       <select class="form-control" formControlName="sitz">
         <option *ngFor="let sitz of sitzoptionen" [value]="sitz">{{sitz}}</option>
       </select>
@@ -43,16 +50,16 @@
     <div [hidden]="!submitted">
       <h2>Folgendes wurde versandt:</h2>
       <div class="row">
-        <div class="col-xs-3">Einkommmen: </div>
-        <div class="col-xs-9">{{ model.einkommen }}</div>
+        Einkommmen: <br>
+        {{model.einkommen}}
       </div>
       <div class="row">
         <div class="col-xs-3">Gesellschaftsform: </div>
-        <div class="col-xs-9">{{ model.gesellschaftsform }}</div>
+        <div class="col-xs-9">{{model.gesellschaftsform}}</div>
       </div>
       <div class="row">
         <div class="col-xs-3">Geschäftssitz: </div>
-        <div class="col-xs-9">{{ model.sitz }}</div>
+        <div class="col-xs-9">{{model.sitz}}</div>
       </div>
       <br>
       Steuerlast: {{ergebnis}} <br><br>
