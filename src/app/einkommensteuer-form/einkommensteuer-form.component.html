@@ -1,53 +1,86 @@
-<div [hidden]="submitted">
-  <h1>Einkommensteuer-Formular</h1>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="einkommen">Einkommen</label>
-      <input type="number" min="0" class="form-control" formControlName="einkommen">
-        <div [hidden]="form.get('einkommen').valid || !form.get('einkommen').touched" class="alert alert-danger">
-          Einkommen wird benötigt
+<div class="container">
+  <div class="row justify-content-md-center">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="width: 500px" >
+      <div class="col">
+        <div class="row justify-content-md-center">
+          <h1>Einkommensteuer Formular</h1>
         </div>
-    </div>
+        <h3><i class="fa fa-book spacer-right"></i>Grunddaten</h3>
+        <!-- Einkommen Input -->
+        <div class="row form-group">
+          <label for="einkommen" class="col">Einkommen</label>
+          <input type="number" min="0" class="form-control col" formControlName="einkommen">
+        </div>
 
-    <div class="form-group">
-      <label for="gesellschaftsform">Gesellschaftsform</label>
-      <select class="form-control" formControlName="gesellschaftsform">
-        <option *ngFor="let gesellschaft of gesellschaftsformoptionen" [value]="gesellschaft">{{gesellschaft}}</option>
-      </select>
-    </div>
+        <!-- Gesellschaftsform Dropdown -->
+        <div class="row form-group">
+          <label class="col" for="gesellschaftsform">Gesellschaftsform</label>
+          <select class="form-control col" formControlName="gesellschaftsform">
+            <option *ngFor="let gesellschaft of gesellschaftsformoptionen" [value]="gesellschaft">{{gesellschaft}}</option>
+          </select>
+        </div>
 
-    <div class="form-group" *ngIf="form.get('gesellschaftsform').value == 'KG'">
-      <label for="kgopt">Gesellschafter</label>
-      <select class="form-control" formControlName="kgopt">
-        <option *ngFor="let kgopt of kgoptionen" [value]="kgopt">{{kgopt}}</option>
-      </select>
+        <!-- Verstecktes Gesellschafter Dropdown -->
+        <div class="row form-group" *ngIf="form.get('gesellschaftsform').value == 'KG'">
+          <label for="kgopt" class="col">Gesellschafter</label>
+          <select class="form-control col" formControlName="kgopt">
+            <option *ngFor="let kgopt of kgoptionen" [value]="kgopt">{{kgopt}}</option>
+          </select>
+        </div>
+
+        <h3><i class="fa fa-plus-circle spacer-right"></i>Zusätzliche Einkünfte</h3>
+
+        <div class="form-group">
+          <div class="row" *ngFor="let child of children.controls; let i = index">
+            <label class="col">Einkunftsart</label>
+            <select class="form-control col" [formControlName]="i" (change)="onChildChanged(i)">
+              <option *ngFor="let inc of incomeOptions" [value]="inc">{{inc}}</option>
+            </select>
+
+
+
+          </div>
+
+
+        </div>
+
+
+        <div class="row form-group">
+          <i class="fa fa-plus additional col" (click)="addChild()"></i>
+        </div>
+
+      </div>
+
+      <div class="row submit-btn">
+        <div class="col">
+          <button type="submit" class="btn btn-success"><i class="fa fa-calculator spacer-right"></i>Berechnen</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+
+ <!--
+
     </div>
-    
-    <div class="form-group" *ngIf="form.get('gesellschaftsform').value">
-      <label for="sitz">Geschäftssitz</label>
-      <select class="form-control" formControlName="sitz">
-        <option *ngFor="let sitz of sitzoptionen" [value]="sitz">{{sitz}}</option>
-      </select>
-    </div>
+      <div [hidden]="form.get('einkommen').valid || !form.get('einkommen').touched" class="alert alert-danger">
+        Einkommen wird benötigt
+      </div>
 
     <div *ngFor="let alias of children.controls; let i = index">
-      <div class="form-group">
-        <label >Einkünfte</label>
-        <button type="button" class="btn btn-danger" (click)="removeChild(i)">X</button>
-        <select class="form-control">
-          <option *ngFor="let inc of incomeOptions" [value]="inc">{{inc}}</option>
-        </select>
-      </div>
+
     </div>
 
-    <button type="submit" class="btn btn-success" [disabled]="!form.valid">Submit</button>
   </form>
   <button class="btn btn-primary" (click)="addChild()">+</button>
 </div>
 
 <div>
   <form>
-    <div [hidden]="!submitted">
+    <div *ngIf="submitted">
       <h2>Folgendes wurde versandt:</h2>
       <div class="row">
         Einkommmen: <br>
@@ -65,5 +98,4 @@
       Steuerlast: {{ergebnis}} <br><br>
       <button class="btn btn-primary" (click)="submitted=false">Edit</button>
     </div>
-  </form>
-</div>
+  </form> -->

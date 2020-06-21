@@ -1,8 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-
 import { Einkommensteuer } from '../einkommensteuer';
 import { SteuerService } from '../steuer.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-einkommensteuer-form',
@@ -24,17 +23,19 @@ export class EinkommensteuerFormComponent implements OnInit{
   constructor(private steuerService: SteuerService, private fb: FormBuilder) {}
 
   ngOnInit(){
-    this.model = new Einkommensteuer();
     this.form = this.fb.group({
       einkommen: ['', Validators.required],
       sitz: ['', Validators.required],
       gesellschaftsform: ['', Validators.required],
-      children: this.fb.array([])
+      children: this.fb.array([
+        this.fb.control('')
+      ])
     });
   }
 
   onSubmit() {
     this.submitted = true;
+    this.model = new Einkommensteuer(this.form.value);
     this.calculation();
   }
 
@@ -42,8 +43,18 @@ export class EinkommensteuerFormComponent implements OnInit{
     return this.form.get('children') as FormArray;
   }
 
+  onChildChanged(index: number) {
+    const newControl: FormControl = this.fb.control('', Validators.required);
+    const formArray: FormArray = this.children.controls[index].get('children') as FormArray;
+    formArray.push(newControl);
+  }
+
   addChild() {
-    this.children.push(this.fb.control('', Validators.required));
+    const newGroup: FormGroup = this.fb.group({
+      newControl: ['', Validators.required],
+      children: this.fb.array([])
+    });
+    this.children.push(newGroup);
   }
 
   removeChild(index: number) {
@@ -71,7 +82,7 @@ export class EinkommensteuerFormComponent implements OnInit{
                 }
               }
             }
-          } 
+          }
         }
       }
     }
